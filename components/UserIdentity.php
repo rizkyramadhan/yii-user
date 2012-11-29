@@ -43,6 +43,12 @@ class UserIdentity extends CUserIdentity
 			$this->username=$user->username;
 			$this->errorCode=self::ERROR_NONE;
 		}
+        
+        if (Yii::app()->controller->module->disableUsername) {
+            $this->username = $user->email;
+        }
+        
+        
 		return !$this->errorCode;
 	}
     

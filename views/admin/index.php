@@ -50,6 +50,7 @@ $('.search-form form').submit(function(){
 			'name' => 'username',
 			'type'=>'raw',
 			'value' => 'CHtml::link(UHtml::markSearch($data,"username"),array("admin/view","id"=>$data->id))',
+            'visible' => !Yii::app()->controller->module->disableUsername
 		),
 		array(
 			'name'=>'email',

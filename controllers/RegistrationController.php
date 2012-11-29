@@ -24,6 +24,10 @@ class RegistrationController extends Controller
             $profile=new Profile;
             $profile->regMode = true;
             
+            if (Yii::app()->controller->module->disableUsername) {
+                $model->username = time() + rand(0,9999999);
+            }
+             
 			// ajax validator
 			if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form')
 			{
