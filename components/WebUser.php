@@ -3,10 +3,45 @@
 class WebUser extends CWebUser
 {
 
-    public function getRole()
-    {
-        return $this->getState('__role');
-    }
+	// Store model to not repeat query.
+	private $_model;
+
+
+	// This is a function that checks the field 'role'
+	// in the User model to be equal to 1, that means it's admin
+	// access it by Yii::app()->user->isAdmin()
+	function getRole(){
+        
+		if (Yii::app()->user->isGuest) {
+			
+            return "";
+		} else {
+			$user = $this->loadUser(Yii::app()->user->id);
+			
+            return $user->role;
+		}
+	}
+
+	// Load user model.
+	protected function loadUser($id=null)
+	{
+		if($this->_model===null)
+		{
+			if($id!==null)
+				$this->_model=User::model()->findByPk($id);
+		}
+		return $this->_model;
+	}
+	
+	//Bypass Yii authManager, use simple role checking instead.
+	public function checkAccess($operation,$params=array(),$allowCaching=true)
+	{
+		return $this->getRole() == $operation;
+	}
+	
+	public function reloadStates($state) {
+		$this->loadIdentityStates($state);
+	}
     
     public function getId()
     {

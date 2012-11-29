@@ -463,6 +463,17 @@ class ProfileFieldController extends Controller
 	 */
 	public function actionAdmin()
 	{
+		if (isset($_GET['update_sort'])) {
+			$sort = explode(',',$_GET['update_sort']);
+			foreach ($sort as $k=>$s) {
+				$pf=ProfileField::model()->findByPk($s);
+				$pf->position=$k + 1;
+				$pf->save(); 
+			}
+		
+			Yii::app()->end();
+		}
+        
 		$model=new ProfileField('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['ProfileField']))
