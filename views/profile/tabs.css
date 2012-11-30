@@ -1,0 +1,78 @@
+.tabs {
+    margin:0px -40px 0px -20px;
+}
+.tabs-nav {
+    border-bottom:1px solid #ccc;
+    padding:0px 25px;
+    margin-bottom:10px;
+}
+.tabs-nav li {
+    background:#F0F0F0;
+    border: 1px solid #C0C0C0;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 5px -1px 0;
+    overflow: hidden;
+    padding: 0;
+    float:left;
+}
+.tabs-nav li a {
+    border: 1px solid #FFFFFF;
+    color: #444444;
+    display: block;
+    outline: medium none;
+    padding: 0 20px;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+.tabs-nav li a:hover {
+    background:#fafafa;
+}
+.tabs-nav li.active {
+    border-bottom: 1px solid #fff;
+}
+.tabs-nav li.active a {
+    background:white;
+}
+.tabs-content {
+    display:none;
+    padding:0px 25px;
+}
+.tabs-content table.dataGrid {
+    margin-right: -100px;
+    width: 700px;
+}
+.tabs-content table.dataGrid > tbody > tr > th.label {
+    width:200px;
+    vertical-align:top;
+}
+.tabs-content table.dataGrid > tbody > tr > td {
+    width:550px;
+}
+.tabs-content .tagit {
+    width:500px;
+}
+.tabs-content.active {
+    display:block;
+}
+.tabs-button {
+    border-top:1px solid #aaa;
+    border-bottom:1px solid #aaa;
+    background:#f0f0f0;
+    margin:20px -20px 0px -20px !important;
+    padding:16px 25px 12px 25px !important;
+}
+.tabs-row-outer {
+    margin:0px -20px 10px -20px; 
+    border-bottom:1px solid #ccc; 
+    font-weight:bold;
+    padding:5px 0px 0px 5px;
+}
+.tabs-row-inner {
+    border:1px solid #ccc;
+    border-bottom:1px solid #fff;
+    display:inline-block;
+    padding:5px 10px;
+    margin:20px 0 -1px 5px;
+    background:#fff;
+}

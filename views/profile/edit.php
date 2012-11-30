@@ -1,7 +1,9 @@
 
 <?php
-ob_start(); include('tabs.css'); $css = ob_get_clean();
+ob_start();include('tabs.css');$css = ob_get_clean();
+ob_start();include('tabs.js');$js = ob_get_clean();
 Yii::app()->getClientScript()->registerCoreScript('jquery');
+Yii::app()->getClientScript()->registerScript('user-tabs', $js);
 Yii::app()->getClientScript()->registerCss('user-tabs', $css);
 ?>
 
@@ -17,7 +19,7 @@ $this->menu = array(
     array('label' => UserModule::t('Change password'), 'url' => array('changepassword')),
     array('label' => UserModule::t('Logout'), 'url' => array('/user/logout')),
 );
-?><h1><?php echo UserModule::t('Edit profile'); ?></h1>
+?><h1><?php echo UserModule::t('Edit Profile'); ?></h1>
 
 <?php if (Yii::app()->user->hasFlash('profileMessage')): ?>
     <div class="success">
@@ -33,8 +35,6 @@ $this->menu = array(
             ));
     ?>
 
-    <p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
-
     <?php echo $form->errorSummary(array($model, $profile)); ?>
 
     <?php
@@ -45,7 +45,11 @@ $this->menu = array(
     <div class="tabs"> 
         <ul class="tabs-nav"> 
             <?php foreach ($profileGroups as $k => $g): ?>
-                <li <?php if ($k == 0): ?>class='active'<?php endif; ?>><a href="#tab_<?php echo $g; ?>"><?php echo $g; ?></a></li>
+                <li <?php if ($k == 0): ?>class='active'<?php endif; ?>>
+                    <a href="#tab_<?php echo $g; ?>">
+                        <?php echo str_replace('_', ' ', $g); ?>
+                    </a>
+                </li>
             <?php endforeach; ?>
             <li><a href="#tab_Login_Information">Login Information</a></li>
             <div class="clearfix"></div>

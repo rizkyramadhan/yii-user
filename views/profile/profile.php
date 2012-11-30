@@ -1,7 +1,9 @@
 
 <?php
-ob_start(); include('tabs.css'); $css = ob_get_clean();
+ob_start();include('tabs.css');$css = ob_get_clean();
+ob_start();include('tabs.js');$js = ob_get_clean();
 Yii::app()->getClientScript()->registerCoreScript('jquery');
+Yii::app()->getClientScript()->registerScript('user-tabs', $js);
 Yii::app()->getClientScript()->registerCss('user-tabs', $css);
 ?>
 
@@ -32,7 +34,11 @@ $profileGroups = Profile::extractGroups($profileFields);
 <div class="tabs"> 
     <ul class="tabs-nav"> 
         <?php foreach ($profileGroups as $k => $g): ?>
-            <li <?php if ($k == 0): ?>class='active'<?php endif; ?>><a href="#tab_<?php echo $g; ?>"><?php echo $g; ?></a></li>
+            <li <?php if ($k == 0): ?>class='active'<?php endif; ?>>
+                <a href="#tab_<?php echo $g; ?>">
+                    <?php echo str_replace('_',' ',$g); ?>
+                </a>
+            </li>
         <?php endforeach; ?>
         <li><a href="#tab_Activity">Activity</a></li>
         <div class="clearfix"></div>
@@ -129,27 +135,3 @@ $profileGroups = Profile::extractGroups($profileFields);
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(function() {
-        $tab = window.location.hash;
-        if ($tab != "") {
-            $('.tabs-nav li.active').removeClass('active');
-            $('.tabs-content.active').removeClass('active');
-	
-            $("a[href="+$tab+"]").parent().addClass('active');
-            $($tab).addClass('active');
-        }
-        $('.tabs-nav li a').click(function() {
-            $('.tabs-nav li.active').removeClass('active');
-            $('.tabs-content.active').removeClass('active');
-	
-            $(this).parent().addClass('active');
-            $($(this).attr('href')).addClass('active');
-	 
-            window.location.hash = $(this).attr('href');
-            $("html").scrollTop(0);
-	
-            return false;
-        });
-    });
-</script>
