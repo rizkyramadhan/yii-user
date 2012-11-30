@@ -38,16 +38,16 @@ $('.search-form form').submit(function(){
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $model->search(),
-    'filter' => $model,
     'columns' => array(
+        array(
+            'name' => 'id',
+            'value' => '$data->id',
+            'htmlOptions' => array('style' => 'display:none;'),
+            'headerHtmlOptions' => array('style' => 'display:none;')
+        ),
         array(
             'header' => '# ',
             'value' => '$data->position',
-        ),
-        array(
-            'name' => 'varname',
-            'type' => 'raw',
-            'value' => 'UHtml::markSearch($data,"varname")',
         ),
         array(
             'name' => 'title',
@@ -64,6 +64,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
         //'error_message',
         //'other_validator',
         //'default',
+        'group',
+        'subgroup',
         array(
             'name' => 'visible',
             'value' => 'ProfileField::itemAlias("visible",$data->visible)',
@@ -88,7 +90,7 @@ Yii::app()->clientScript->registerCoreScript('jquery.ui');
                 var order = [];
                 $('table.items tbody tr').each(function(i,item) {
                     order.push($(item).find('td:eq(0)').text() * 1);
-                    $(item).find('td:eq(0)').text(i + 1);
+                    $(item).find('td:eq(1)').text(i + 1);
                 });
                 $.get('?update_sort='+order.join(',')+'&ajax=yw0');
             } 

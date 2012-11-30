@@ -35,7 +35,7 @@ class UserLogin extends CFormModel
 	{
 		return array(
 			'rememberMe'=>UserModule::t("Remember me next time"),
-			'username'=>UserModule::t(Yii::app()->controller->module->disableUsername ? "Email" : "Username or Email"),
+			'username'=>UserModule::t(Yii::app()->getModule('user')->disableUsername ? "Email" : "Username or Email"),
 			'password'=>UserModule::t("Password"),
 		);
 	}

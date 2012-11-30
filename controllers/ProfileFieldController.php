@@ -356,8 +356,8 @@ class ProfileFieldController extends Controller
 								)?" DEFAULT ''":(($model->field_type=='DATE')?" DEFAULT '0000-00-00'":" DEFAULT 0"));
 				}
 				$model->dbConnection->createCommand($sql)->execute();
-				$model->save();
-				$this->redirect(array('view','id'=>$model->id));
+				$model->save();                
+				$this->redirect(array('admin'));
 			}
 		}
 		
@@ -378,7 +378,7 @@ class ProfileFieldController extends Controller
 		{
 			$model->attributes=$_POST['ProfileField'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('admin'));
 		}
 		$this->registerScript();
 

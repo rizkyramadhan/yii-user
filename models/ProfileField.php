@@ -59,9 +59,10 @@ class ProfileField extends CActiveRecord {
             array('varname, field_type', 'length', 'max' => 50),
             array('field_size_min, required, position, visible', 'numerical', 'integerOnly' => true),
             array('field_size', 'match', 'pattern' => '/^\s*[-+]?[0-9]*\,*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/'),
-            array('title, match, error_message, other_validator, default, widget', 'length', 'max' => 255),
+            array('title, match, error_message, other_validator, default, widget, visible_for_role', 'length', 'max' => 255),
             array('range, widgetparams', 'length', 'max' => 5000),
-            array('id, varname, title, field_type, field_size, field_size_min, required, match, range, error_message, other_validator, default, widget, widgetparams, position, visible', 'safe', 'on' => 'search'),
+            array('group,subgroup', 'safe'),
+            array('id, varname, title, field_type, field_size, field_size_min, required, match, range, error_message, other_validator, default, widget, widgetparams, position, visible, visible_for_role', 'safe', 'on' => 'search'),
         );
     }
 
@@ -100,14 +101,32 @@ class ProfileField extends CActiveRecord {
         );
     }
 
+    private function role2sql($role) {
+        $rarr = explode(",", $role);
+        $sql = "";
+        foreach ($rarr as $r) {
+            $r = strtolower(trim($r));
+            if ($sql != '')
+                $sql = " and " . $sql;
+            $sql .= "visible_for_role like '$r'";
+        }
+        return $sql;
+    }
+
     public function scopes() {
+        $role = Yii::app()->user->role;
+
         return array(
+            'forRole' => array(
+                'condition' => "visible_for_role like '%$role%' or visible_for_role like ''",
+                'order' => 'position'
+            ),
             'forAll' => array(
                 'condition' => 'visible=' . self::VISIBLE_ALL,
                 'order' => 'position',
             ),
             'forCertainRole' => array(
-                'condition' => 'visible-' . self::VISIBLE_FOR_CERTAIN_ROLE,
+                'condition' => 'visible>=' . self::VISIBLE_FOR_CERTAIN_ROLE,
                 'order' => 'position',
             ),
             'forUser' => array(
@@ -240,7 +259,7 @@ class ProfileField extends CActiveRecord {
         return new CActiveDataProvider(get_class($this), array(
                     'criteria' => $criteria,
                     'pagination' => array(
-                        'pageSize' => Yii::app()->controller->module->fields_page_size,
+                        'pageSize' => 99,
                     ),
                     'sort' => array(
                         'defaultOrder' => 'position',

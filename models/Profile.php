@@ -22,6 +22,28 @@ class Profile extends UActiveRecord
 		return parent::model($className);
 	}
 
+	public static function extractGroups($fields) {
+		$g = array();
+		foreach ($fields as $f) {
+			if (!in_array($f['group'],$g)) {
+				$g[] = $f['group'];
+			}
+		}
+		return $g;
+	}
+	
+	public static function extractSubGroups($fields,$current_group) {
+		$s = array();
+		foreach ($fields as $f) {
+			if ($f['group'] == $current_group) {
+				if (!in_array($f['subgroup'],$s)) {
+					$s[] = $f['subgroup'];
+				}
+			}
+		}
+		return $s;
+	}
+	
 	/**
 	 * @return string the associated database table name
 	 */

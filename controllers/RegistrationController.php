@@ -24,7 +24,7 @@ class RegistrationController extends Controller
             $profile=new Profile;
             $profile->regMode = true;
             
-            if (Yii::app()->controller->module->disableUsername) {
+            if (Yii::app()->getModule('user')->disableUsername) {
                 $model->username = time() + rand(0,9999999);
             }
              
@@ -62,7 +62,7 @@ class RegistrationController extends Controller
 									$identity=new UserIdentity($model->username,$soucePassword);
 									$identity->authenticate();
 									Yii::app()->user->login($identity,0);
-									$this->redirect(Yii::app()->controller->module->returnUrl);
+									$this->redirect(Yii::app()->controller->module->getReturnUrl());
 							} else {
 								if (!Yii::app()->controller->module->activeAfterRegister&&!Yii::app()->controller->module->sendActivationMail) {
 									Yii::app()->user->setFlash('registration',UserModule::t("Thank you for your registration. Contact Admin to activate your account."));

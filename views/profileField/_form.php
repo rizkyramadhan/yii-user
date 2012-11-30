@@ -27,6 +27,19 @@
         <p class="hint"><?php echo UserModule::t('Field type column in the database.'); ?></p>
     </div>
 
+	<div class="row group">
+		<?php echo CHtml::activeLabelEx($model, 'group'); ?>
+		<?php echo CHtml::activeTextField($model, 'group', array('size' => 25, 'maxlength' => 25)); ?>
+		<?php echo CHtml::error($model, 'group'); ?>
+		<p class="hint" style="display:block;margin:-5px 0px 10px 0px;font-size:11px;"><?php echo UserModule::t('Group field into this group.'); ?></p>
+	</div>
+	
+	<div class="row subgroup">
+		<?php echo CHtml::activeLabelEx($model, 'subgroup'); ?>
+		<?php echo CHtml::activeTextField($model, 'subgroup', array('size' => 25, 'maxlength' => 25)); ?>
+		<?php echo CHtml::error($model, 'subgroup'); ?>
+	</div>
+    
     <div class="row field_size">
         <?php echo CHtml::activeLabelEx($model, 'field_size'); ?>
         <?php echo (($model->id) ? $model->field_size . "<br/><br/>" : CHtml::activeTextField($model, 'field_size')); ?>
@@ -101,19 +114,14 @@
         <p class="hint"><?php echo UserModule::t('JSON string (example: {example}).', array('{example}' => CJavaScript::jsonEncode(array('param1' => array('val1', 'val2'), 'param2' => array('k1' => 'v1', 'k2' => 'v2'))))); ?></p>
     </div>
 
-    <div class="row position">
-        <?php echo CHtml::activeLabelEx($model, 'position'); ?>
-        <?php echo CHtml::activeTextField($model, 'position'); ?>
-        <?php echo CHtml::error($model, 'position'); ?>
-        <p class="hint"><?php echo UserModule::t('Display order of fields.'); ?></p>
-    </div>
+    <?php echo CHtml::activeHiddenField($model, 'position'); ?>
 
     <div class="row visible">
         <?php echo CHtml::activeLabelEx($model, 'visible'); ?>
         <?php echo CHtml::activeDropDownList($model, 'visible', ProfileField::itemAlias('visible')); ?>
         <div class="visible_for_role" 
              style="display:<?php if ($model->visible == ProfileField::VISIBLE_FOR_CERTAIN_ROLE): ?>block;<?php else: ?>none;<?php endif; ?>">
-            Role: <?php echo CHtml::activeTextField($model, 'visible_for_role'); ?>
+            Role: <?php echo CHtml::activeTextField($model, 'visible_for_role', array('size' => 60)); ?>
             <p class="hint"><?php echo UserModule::t('Separate by comma (,) .'); ?></p>
         </div>
         <?php echo CHtml::error($model, 'visible'); ?>

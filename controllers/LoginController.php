@@ -19,7 +19,7 @@ class LoginController extends Controller
 				if($model->validate()) {
 					$this->lastViset();
 					if (Yii::app()->getBaseUrl()."/index.php" === Yii::app()->user->returnUrl)
-						$this->redirect(Yii::app()->controller->module->returnUrl);
+						$this->redirect(Yii::app()->controller->module->getReturnUrl());
 					else
 						$this->redirect(Yii::app()->user->returnUrl);
 				}

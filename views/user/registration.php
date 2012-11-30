@@ -30,7 +30,7 @@ $this->breadcrumbs = array(
 
         <?php echo $form->errorSummary(array($model, $profile)); ?>
 
-        <?php if (!Yii::app()->controller->module->disableUsername): ?>
+        <?php if (!Yii::app()->getModule('user')->disableUsername): ?>
             <div class="row">
                 <?php echo $form->labelEx($model, 'username'); ?>
                 <?php echo $form->textField($model, 'username'); ?>

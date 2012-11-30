@@ -11,6 +11,36 @@
 class UserModule extends CWebModule {
 
     /**
+     * @var array
+     * @desc Available Role
+     */
+    public $availableRole = array(
+        'pengelola' => 'Pengelola Beasiswa',
+        'karyasiswa' => 'Karyasiswa',
+        'unit' => 'Unit'
+    );
+
+    /**
+     * @var array
+     * @desc Role Return Url (only used if available role is not empty)
+     *       If return url is not found in this array, use default return url
+     */
+    public $roleReturnUrl = array(
+        'pengelola' => array('/karyasiswa')
+    );
+
+    public function getReturnUrl() {
+        if (count($this->availableRole) > 0) {
+            if (isset($this->roleReturnUrl[$this->user()->role])) {
+                return $this->roleReturnUrl[$this->user()->role];
+            } else {
+                return $this->returnUrl;
+            }
+        }
+        return $this->returnUrl;
+    }
+
+    /**
      * @var int
      * @desc items on page
      */
@@ -207,7 +237,7 @@ class UserModule extends CWebModule {
 
             $return_name = array();
             foreach ($admins as $admin) {
-                if (Yii::app()->controller->module->disableUsername) {
+                if (Yii::app()->getModule('user')->disableUsername) {
                     array_push($return_name, $admin->email);
                 } else {
 

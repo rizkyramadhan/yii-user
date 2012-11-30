@@ -43,16 +43,16 @@ class User extends CActiveRecord {
      * @return array validation rules for model attributes.
      */
     public function rules() {
-        $u1 = (Yii::app()->controller->module->disableUsername ? '' : 'username, ');
+        $u1 = (Yii::app()->getModule('user')->disableUsername ? '' : 'username, ');
 
-        $u2 = (Yii::app()->controller->module->disableUsername ? array('','safe') :
+        $u2 = (Yii::app()->getModule('user')->disableUsername ? array('', 'safe') :
                         array('username', 'length', 'max' => 20, 'min' => 3,
                     'message' => UserModule::t("Incorrect username (length between 3 and 20 characters)."))
                 );
-        $u3 = (Yii::app()->controller->module->disableUsername ? array('','safe') :
+        $u3 = (Yii::app()->getModule('user')->disableUsername ? array('', 'safe') :
                         array('username', 'unique', 'message' => UserModule::t("This user's name already exists.")));
 
-        $u4 = (Yii::app()->controller->module->disableUsername ? array('','safe') :
+        $u4 = (Yii::app()->getModule('user')->disableUsername ? array('', 'safe') :
                         array('username', 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u',
                     'message' => UserModule::t("Incorrect symbols (A-z0-9).")));
 
@@ -73,7 +73,7 @@ class User extends CActiveRecord {
                 array('create_at', 'default', 'value' => date('Y-m-d H:i:s'), 'setOnEmpty' => true, 'on' => 'insert'),
                 array('lastvisit_at', 'default', 'value' => '0000-00-00 00:00:00', 'setOnEmpty' => true, 'on' => 'insert'),
                 array('superuser, status', 'numerical', 'integerOnly' => true),
-                array('id, username, password, email, activkey, create_at, lastvisit_at, superuser, status', 'safe', 'on' => 'search'),
+                array('id, username, password, email, activkey, create_at, lastvisit_at, superuser, status, role', 'safe', 'on' => 'search'),
             );
         } else if (Yii::app()->user->id == $this->id) {
             $rules = array(
@@ -156,6 +156,7 @@ class User extends CActiveRecord {
                 '0' => UserModule::t('No'),
                 '1' => UserModule::t('Yes'),
             ),
+            'Role' => Yii::app()->getModule('user')->availableRole
         );
         if (isset($code))
             return isset($_items[$type][$code]) ? $_items[$type][$code] : false;
@@ -175,6 +176,7 @@ class User extends CActiveRecord {
 
         $criteria->compare('id', $this->id);
         $criteria->compare('username', $this->username, true);
+        $criteria->compare('role', $this->role);
         $criteria->compare('password', $this->password);
         $criteria->compare('email', $this->email, true);
         $criteria->compare('activkey', $this->activkey);

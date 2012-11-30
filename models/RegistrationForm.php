@@ -12,11 +12,11 @@ class RegistrationForm extends User {
 
     public function rules() {
 
-        $u1 = (Yii::app()->controller->module->disableUsername ? '' : 'username, ');
-        $u2 = (Yii::app()->controller->module->disableUsername ? array('','safe') : array('username', 'length', 'max' => 20, 'min' => 3,
+        $u1 = (Yii::app()->getModule('user')->disableUsername ? '' : 'username, ');
+        $u2 = (Yii::app()->getModule('user')->disableUsername ? array('','safe') : array('username', 'length', 'max' => 20, 'min' => 3,
                     'message' => UserModule::t("Incorrect username (length between 3 and 20 characters)."))
                 );
-        $u3 = (Yii::app()->controller->module->disableUsername ? array('','safe')  : array('username', 'unique',
+        $u3 = (Yii::app()->getModule('user')->disableUsername ? array('','safe')  : array('username', 'unique',
                     'message' => UserModule::t("This user's name already exists.")));
 
         $rules = array(
